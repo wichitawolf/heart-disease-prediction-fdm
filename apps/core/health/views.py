@@ -237,47 +237,7 @@ def _fallback_rule_based_prediction(list_data):
 
 
 def add_heartdetail(request):
-    if request.method == "POST":
-        # Validate all required fields are present and non-empty
-        required_fields = ['age','sex','cp','trestbps','chol','fbs','restecg','thalach','exang','oldpeak','slope','ca','thal']
-        missing = [f for f in required_fields if request.POST.get(f) in (None, '')]
-        if missing:
-            messages.error(request, f"Please fill all required fields: {', '.join(missing)}")
-            return render(request, 'add_heartdetail.html', { 'form_data': request.POST })
-
-        # Build feature vector in a fixed order to match the model
-        try:
-            age = float(request.POST.get('age'))
-            sex = float(request.POST.get('sex'))
-            cp = float(request.POST.get('cp'))
-            trestbps = float(request.POST.get('trestbps'))
-            chol = float(request.POST.get('chol'))
-            fbs = float(request.POST.get('fbs'))
-            restecg = float(request.POST.get('restecg'))
-            thalach = float(request.POST.get('thalach'))
-            exang = float(request.POST.get('exang'))
-            oldpeak = float(request.POST.get('oldpeak'))
-            slope = float(request.POST.get('slope'))
-            ca = float(request.POST.get('ca'))
-            thal = float(request.POST.get('thal'))
-
-            list_data = [
-                age, sex, cp, trestbps, chol, fbs, restecg,
-                thalach, exang, oldpeak, slope, ca, thal
-            ]
-        except Exception:
-            messages.error(request, "Please enter valid numeric values for all fields.")
-            return render(request, 'add_heartdetail.html', { 'form_data': request.POST })
-
-        # Predict only when all inputs are valid
-        accuracy, pred = prdict_heart_disease(list_data)
-        Search_Data.objects.create(prediction_accuracy=accuracy, result=pred[0], values_list=list_data)
-        rem = int(pred[0])
-        if pred[0] == 0:
-            pred = "<span style='color:green'>You are healthy</span>"
-        else:
-            pred = "<span style='color:red'>You are Unhealthy, Need to Checkup.</span>"
-        return redirect('predict_desease', str(rem), str(accuracy))
+    # Render the heart health dashboard page
     return render(request, 'add_heartdetail.html')
 
 @login_required(login_url="login")
