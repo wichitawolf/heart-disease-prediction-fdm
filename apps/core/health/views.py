@@ -249,10 +249,49 @@ def predict_desease(request, pred, accuracy):
     d = {'pred': pred, 'accuracy':accuracy}
     return render(request, 'predict_disease.html', d)
 
+
 @login_required(login_url="login")
 def view_search_pat(request):
     data = Search_Data.objects.all().order_by('-id')
-    return render(request,'view_search_pat.html',{'data':data})
+
+    # Robust counting to handle legacy/text values
+    healthy_aliases = {"0", "healthy", "Healthy", "HEALTHY", "You are healthy"}
+    risk_aliases = {"1", "unhealthy", "Unhealthy", "UNHEALTHY", "Risk", "Risk Detected", "▲ Risk Detected", "Need to Checkup."}
+
+    healthy_count = 0
+    risk_count = 0
+    for item in data:
+        value = str(item.result).strip() if item.result is not None else ""
+        if value in healthy_aliases:
+            healthy_count += 1
+        elif value in risk_aliases:
+            risk_count += 1
+        else:
+            # Fallback: treat numeric-like values
+            try:
+                numeric_val = int(float(value))
+                if numeric_val == 0:
+                    healthy_count += 1
+                elif numeric_val == 1:
+                    risk_count += 1
+            except Exception:
+                pass
+    # Average accuracy (safely parsed)
+    accuracies = Search_Data.objects.values_list('prediction_accuracy', flat=True)
+    avg_accuracy = 0
+    try:
+        numeric_accuracies = [float(a) for a in accuracies if a is not None and str(a).replace('.', '', 1).isdigit()]
+        if numeric_accuracies:
+            avg_accuracy = sum(numeric_accuracies) / len(numeric_accuracies)
+    except Exception:
+        avg_accuracy = 0
+    context = {
+        'data': data,
+        'healthy_count': healthy_count,
+        'risk_count': risk_count,
+        'avg_accuracy': avg_accuracy,
+    }
+    return render(request,'view_search_pat.html', context)
 
 @login_required(login_url="login")
 def get_latest_predictions(request):
