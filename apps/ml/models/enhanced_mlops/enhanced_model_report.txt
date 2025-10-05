@@ -1,0 +1,63 @@
+
+================================================================================
+ENHANCED MLOPS HEART DISEASE PREDICTION MODEL REPORT
+================================================================================
+
+Training Date: 2025-10-05 09:49:41
+Best Model: svm
+Best Accuracy: 0.9333 (93.33%)
+
+MODEL PERFORMANCE SUMMARY
+----------------------------------------
+
+SVM:
+  Test Accuracy: 0.9333 (93.33%)
+  F1-Score: 0.9180
+  ROC-AUC: 0.9824
+  CV Score: 0.9025
+  Best Params: {'C': 100, 'gamma': 'scale', 'kernel': 'rbf'}
+
+EXTRA_TREES:
+  Test Accuracy: 0.9200 (92.00%)
+  F1-Score: 0.8966
+  ROC-AUC: 0.9714
+  CV Score: 0.9060
+  Best Params: {'max_depth': 10, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 300}
+
+LOGISTIC_REGRESSION:
+  Test Accuracy: 0.9067 (90.67%)
+  F1-Score: 0.8772
+  ROC-AUC: 0.8988
+  CV Score: 0.8858
+  Best Params: {'C': 0.01, 'penalty': 'l2', 'solver': 'saga'}
+
+XGBOOST:
+  Test Accuracy: 0.9067 (90.67%)
+  F1-Score: 0.8814
+  ROC-AUC: 0.9252
+  CV Score: 0.9094
+  Best Params: {'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 500, 'subsample': 0.8}
+
+RANDOM_FOREST:
+  Test Accuracy: 0.8933 (89.33%)
+  F1-Score: 0.8621
+  ROC-AUC: 0.9685
+  CV Score: 0.8960
+  Best Params: {'max_depth': 10, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'min_samples_split': 2, 'n_estimators': 500}
+
+GRADIENT_BOOSTING:
+  Test Accuracy: 0.8933 (89.33%)
+  F1-Score: 0.8621
+  ROC-AUC: 0.9479
+  CV Score: 0.9160
+  Best Params: {'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 200, 'subsample': 0.8}
+
+FEATURE INFORMATION
+----------------------------------------
+Total Features Used: 15
+Selected Features: age_risk, age_chol, sex_age, bp_risk, trestbps, chol_risk, cv_risk_score, cp, chol, exang, age_bp, sex, hr_efficiency, age, thalach
+
+MODEL RECOMMENDATIONS
+----------------------------------------
+✅ Excellent model performance (≥80% accuracy)
+✅ Model ready for production deployment
