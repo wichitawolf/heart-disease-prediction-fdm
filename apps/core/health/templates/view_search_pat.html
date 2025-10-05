@@ -1,17 +1,22 @@
 {% extends 'index.html' %}
 {% load static %}
-{% block body %}
 
-<!-- Simple Header Section -->
+{% block title %}Prediction History - Heart Disease Prediction{% endblock %}
+
+{% block body %}
+<!-- Enhanced Header Section -->
 <div class="container mt-4 mb-4">
     <div class="row">
         <div class="col-12">
             <div class="page-header text-center">
+                <div class="header-icon mb-3">
+                    <i class="fas fa-chart-line"></i>
+                </div>
                 <h1 class="page-title mb-3">
                     <i class="fas fa-history me-3"></i>
                     Prediction History
                 </h1>
-                <p class="page-subtitle">View all your heart disease prediction records and results</p>
+                <p class="page-subtitle">Track your heart health predictions and monitor your health journey over time</p>
             </div>
         </div>
     </div>
@@ -56,20 +61,14 @@
                             </div>
                             <div class="stat-content">
                                 <h3 class="stat-number">
-                                {% for i in data %}
-                                    {% if i.result == "0" %}
-                                        {% if forloop.first %}
-                                            {% with healthy_count=0 %}
-                                                {% for j in data %}
-                                                    {% if j.result == "0" %}
-                                                        {% with healthy_count=healthy_count|add:1 %}{% endwith %}
-                                                    {% endif %}
-                                                {% endfor %}
-                                                {{ healthy_count }}
-                                            {% endwith %}
+                                {% with healthy_count=0 %}
+                                    {% for i in data %}
+                                        {% if i.result == "0" %}
+                                            {% with healthy_count=healthy_count|add:1 %}{% endwith %}
                                         {% endif %}
-                                    {% endif %}
-                                {% endfor %}
+                                    {% endfor %}
+                                    {{ healthy_count }}
+                                {% endwith %}
                                 </h3>
                                 <p class="stat-label">Healthy Results</p>
                                 <div class="stat-trend">
@@ -86,20 +85,14 @@
                             </div>
                             <div class="stat-content">
                                 <h3 class="stat-number">
-                                {% for i in data %}
-                                    {% if i.result == "1" %}
-                                        {% if forloop.first %}
-                                            {% with unhealthy_count=0 %}
-                                                {% for j in data %}
-                                                    {% if j.result == "1" %}
-                                                        {% with unhealthy_count=unhealthy_count|add:1 %}{% endwith %}
-                                                    {% endif %}
-                                                {% endfor %}
-                                                {{ unhealthy_count }}
-                                            {% endwith %}
+                                {% with unhealthy_count=0 %}
+                                    {% for i in data %}
+                                        {% if i.result == "1" %}
+                                            {% with unhealthy_count=unhealthy_count|add:1 %}{% endwith %}
                                         {% endif %}
-                                    {% endif %}
-                                {% endfor %}
+                                    {% endfor %}
+                                    {{ unhealthy_count }}
+                                {% endwith %}
                                 </h3>
                                 <p class="stat-label">Risk Detected</p>
                                 <div class="stat-trend">
@@ -117,20 +110,18 @@
                             <div class="stat-content">
                                 <h3 class="stat-number">
                                 {% if data %}
-                                    {% with total=data|length %}
+                                    {% with total_accuracy=0 %}
                                         {% for i in data %}
-                                            {% if forloop.first %}
-                                                {% with avg_accuracy=0 %}
-                                                    {% for j in data %}
-                                                        {% with avg_accuracy=avg_accuracy|add:j.prediction_accuracy %}{% endwith %}
-                                                    {% endfor %}
-                                                        {{ avg_accuracy|floatformat:1 }}%
-                                                {% endwith %}
-                                            {% endif %}
+                                            {% with total_accuracy=total_accuracy|add:i.prediction_accuracy %}{% endwith %}
                                         {% endfor %}
+                                        {% if data|length > 0 %}
+                                            {{ total_accuracy|floatformat:1 }}%
+                                        {% else %}
+                                            0%
+                                        {% endif %}
                                     {% endwith %}
                                 {% else %}
-                                        0%
+                                    0%
                                 {% endif %}
                                 </h3>
                                 <p class="stat-label">Avg. Accuracy</p>
@@ -143,37 +134,34 @@
                     </div>
                 </div>
 
-                <!-- Simple Data Table -->
+                <!-- Enhanced Data Table -->
                 <div class="table-responsive">
                     <table id="example" class="table-modern">
                         <thead>
                             <tr>
                                 <th class="text-center">
                                     <i class="fas fa-hashtag me-2"></i>
-                                    <span>#</span>
+                                    <span>ID</span>
                                 </th>
-                                {% if request.user.patient_set.all.0 %}
                                 <th>
                                     <i class="fas fa-calendar me-2"></i>
-                                    <span>Date</span>
+                                    <span>Date & Time</span>
                                 </th>
-                                {% else %}
-                                <th>
-                                    <i class="fas fa-user me-2"></i>
-                                    <span>Patient Name</span>
-                                </th>
-                                {% endif %}
                                 <th class="text-center">
                                     <i class="fas fa-percentage me-2"></i>
                                     <span>Accuracy</span>
                                 </th>
                                 <th class="text-center">
                                     <i class="fas fa-heart me-2"></i>
-                                    <span>Result</span>
+                                    <span>Health Status</span>
                                 </th>
                                 <th>
                                     <i class="fas fa-chart-bar me-2"></i>
-                                    <span>Heart Values</span>
+                                    <span>Key Metrics</span>
+                                </th>
+                                <th class="text-center">
+                                    <i class="fas fa-cog me-2"></i>
+                                    <span>Actions</span>
                                 </th>
                             </tr>
                         </thead>
@@ -181,27 +169,22 @@
                             {% for i in data %}
                             <tr class="fade-in">
                                 <td class="text-center">
-                                    <span class="badge bg-primary rounded-pill">{{ forloop.counter }}</span>
+                                    <span class="badge bg-primary rounded-pill">{{ i.id }}</span>
                                 </td>
-                                {% if request.user.patient_set.all.0 %}
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <i class="fas fa-calendar-alt text-primary me-2"></i>
-                                        <span>{{ i.created|date:"M d, Y" }}</span>
+                                        <div>
+                                            <div class="fw-bold">{{ i.created|date:"M d, Y" }}</div>
+                                            <small class="text-muted">{{ i.created|date:"g:i A" }}</small>
+                                        </div>
                                     </div>
                                 </td>
-                                {% else %}
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <i class="fas fa-user-circle text-primary me-2"></i>
-                                        <span>{{ i.patient.user.first_name }} {{ i.patient.user.last_name }}</span>
-                                    </div>
-                                </td>
-                                {% endif %}
                                 <td class="text-center">
                                     <div class="d-flex align-items-center justify-content-center">
                                         <div class="progress me-2" style="width: 60px; height: 8px;">
-                                            <div class="progress-bar bg-success" role="progressbar" 
+                                            <div class="progress-bar {% if i.prediction_accuracy >= 90 %}bg-success{% elif i.prediction_accuracy >= 70 %}bg-warning{% else %}bg-danger{% endif %}" 
+                                                 role="progressbar" 
                                                  style="width: {{ i.prediction_accuracy }}%" 
                                                  aria-valuenow="{{ i.prediction_accuracy }}" 
                                                  aria-valuemin="0" aria-valuemax="100">
@@ -225,18 +208,33 @@
                                     <div class="d-flex align-items-center">
                                         <i class="fas fa-chart-bar text-warning me-2"></i>
                                         <span class="text-truncate" style="max-width: 150px;" title="{{ i.values_list }}">
-                                            {{ i.values_list }}
+                                            {{ i.values_list|truncatechars:20 }}
                                         </span>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-sm btn-outline-primary" 
+                                                data-bs-toggle="tooltip" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-success" 
+                                                data-bs-toggle="tooltip" title="Download Report">
+                                            <i class="fas fa-download"></i>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="5" class="text-center py-5">
+                                <td colspan="6" class="text-center py-5">
                                     <div class="empty-state">
                                         <i class="fas fa-inbox fa-3x mb-3"></i>
                                         <h5>No Prediction Records Found</h5>
                                         <p>Start by making your first heart disease prediction!</p>
+                                        <a href="{% url 'guest_prediction' %}" class="btn btn-primary mt-3">
+                                            <i class="fas fa-plus me-2"></i>Make First Prediction
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -245,42 +243,78 @@
                     </table>
                 </div>
 
-                <!-- Quick Actions -->
-                <div class="mt-4 p-3 bg-light rounded">
-                    <div class="row align-items-center">
+                <!-- Enhanced Quick Actions -->
+                <div class="mt-4">
+                    <div class="row">
                         <div class="col-md-6">
-                            <h6 class="mb-2">
-                                <i class="fas fa-lightbulb text-warning me-2"></i>
-                                Quick Actions
-                            </h6>
-                            <p class="text-muted mb-0">Export your data or make new predictions</p>
+                            <div class="action-card">
+                                <div class="action-header">
+                                    <i class="fas fa-lightbulb text-warning"></i>
+                                    <h6>Quick Actions</h6>
+                                </div>
+                                <div class="action-content">
+                                    <p class="text-muted mb-3">Manage your predictions and export data</p>
+                                    <div class="d-flex gap-2">
+                                        <a href="{% url 'guest_prediction' %}" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-plus me-1"></i> New Prediction
+                                        </a>
+                                        <button class="btn btn-outline-success btn-sm" onclick="exportData()">
+                                            <i class="fas fa-download me-1"></i> Export Data
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6 text-md-end">
-                            <a href="/add_heartdetail/" class="btn-modern btn-primary me-2">
-                                <i class="fas fa-plus"></i> New Prediction
-                            </a>
+                        <div class="col-md-6">
+                            <div class="action-card">
+                                <div class="action-header">
+                                    <i class="fas fa-chart-pie text-primary"></i>
+                                    <h6>Health Insights</h6>
+                                </div>
+                                <div class="action-content">
+                                    <p class="text-muted mb-3">Track your heart health journey over time</p>
+                                    <div class="d-flex gap-2">
+                                        <a href="{% url 'add_heartdetail' %}" class="btn btn-outline-primary btn-sm">
+                                            <i class="fas fa-tachometer-alt me-1"></i> Dashboard
+                                        </a>
+                                        <button class="btn btn-outline-info btn-sm" onclick="showInsights()">
+                                            <i class="fas fa-chart-line me-1"></i> View Trends
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Data Insights -->
-                <div class="mt-4 p-3 bg-light rounded">
-                    <h6 class="mb-3">
-                        <i class="fas fa-chart-pie text-primary me-2"></i>
-                        Data Insights
-                    </h6>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <small class="text-muted">
-                                <i class="fas fa-info-circle text-info me-1"></i>
-                                Your prediction history helps track your heart health over time.
-                            </small>
+                <!-- Enhanced Data Insights -->
+                <div class="mt-4">
+                    <div class="info-card">
+                        <div class="info-header">
+                            <i class="fas fa-shield-alt"></i>
+                            <h6>Data Security & Privacy</h6>
                         </div>
-                        <div class="col-md-6 text-md-end">
-                            <small class="text-muted">
-                                <i class="fas fa-shield-alt text-success me-1"></i>
-                                All data is encrypted and secure for your privacy.
-                            </small>
+                        <div class="info-content">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-start">
+                                        <i class="fas fa-lock text-success me-2 mt-1"></i>
+                                        <div>
+                                            <strong>Encrypted Storage</strong>
+                                            <p class="text-muted mb-0">All your prediction data is encrypted and stored securely.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-start">
+                                        <i class="fas fa-user-shield text-info me-2 mt-1"></i>
+                                        <div>
+                                            <strong>Privacy Protected</strong>
+                                            <p class="text-muted mb-0">Your personal health information remains confidential.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -481,6 +515,43 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Start real-time updates
     setInterval(fetchLatestData, 5000); // Check every 5 seconds
+    
+    // Export data function
+    window.exportData = function() {
+        // Create CSV content
+        const table = document.getElementById('example');
+        const rows = table.querySelectorAll('tr');
+        let csvContent = "ID,Date,Accuracy,Result,Key Metrics\n";
+        
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].querySelectorAll('td');
+            if (cells.length >= 5) {
+                const id = cells[0].textContent.trim();
+                const date = cells[1].textContent.trim();
+                const accuracy = cells[2].textContent.trim();
+                const result = cells[3].textContent.trim();
+                const metrics = cells[4].textContent.trim();
+                
+                csvContent += `"${id}","${date}","${accuracy}","${result}","${metrics}"\n`;
+            }
+        }
+        
+        // Download CSV
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'heart-prediction-history.csv';
+        a.click();
+        window.URL.revokeObjectURL(url);
+        
+        showNotification('Data exported successfully!');
+    };
+    
+    // Show insights function
+    window.showInsights = function() {
+        showNotification('Health insights feature coming soon!');
+    };
 });
 
 // Enhanced CSS matching the design system
@@ -488,14 +559,32 @@ const style = document.createElement('style');
 style.textContent = `
     /* Enhanced Page Header */
     .page-header {
-        background: var(--gradient-primary);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         border-radius: 20px;
         padding: 3rem 2rem;
         margin-bottom: 2rem;
-        box-shadow: var(--shadow-medium);
-        border: 1px solid var(--border-light);
+        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         position: relative;
         overflow: hidden;
+    }
+    
+    .header-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        box-shadow: 0 8px 32px rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+    }
+    
+    .header-icon i {
+        font-size: 2.5rem;
+        color: white;
     }
     
     .page-header::before {
@@ -528,12 +617,86 @@ style.textContent = `
     
     /* Enhanced Card Styling */
     .card-modern {
-        background: var(--bg-card);
+        background: white;
         border-radius: 20px;
-        box-shadow: var(--shadow-medium);
-        border: 1px solid var(--border-light);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e9ecef;
         overflow: hidden;
         transition: all 0.3s ease;
+    }
+    
+    /* Action Cards */
+    .action-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e9ecef;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    
+    .action-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+    }
+    
+    .action-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #f8f9fa;
+    }
+    
+    .action-header i {
+        font-size: 1.2rem;
+    }
+    
+    .action-header h6 {
+        margin: 0;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+    
+    .action-content p {
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+    
+    /* Info Cards */
+    .info-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e9ecef;
+        overflow: hidden;
+    }
+    
+    .info-header {
+        background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        border-bottom: 1px solid #ffeaa7;
+    }
+    
+    .info-header i {
+        color: #856404;
+        font-size: 1.2rem;
+    }
+    
+    .info-header h6 {
+        color: #856404;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0;
+    }
+    
+    .info-content {
+        padding: 1.5rem;
     }
     
     .card-modern:hover {
