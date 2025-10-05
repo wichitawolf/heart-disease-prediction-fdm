@@ -1,5 +1,8 @@
 {% extends 'index.html' %}
 {% load static %}
+
+{% block title %}Send Feedback - Heart Disease Prediction{% endblock %}
+
 {% block body %}
 {% if terror == "create" %}
 <script>
@@ -8,178 +11,335 @@
 </script>
 {% endif %}
 
-<div class="feedback-hero">
-    <div class="container">
-        <div class="feedback-header text-center">
-            <div class="feedback-icon">
-                <i class="fas fa-comments"></i>
-            </div>
-            <h1 class="feedback-title">Share Your Experience</h1>
-            <p class="feedback-subtitle">Help us improve our Heart Disease Prediction System with your valuable feedback</p>
-        </div>
-    </div>
-</div>
-
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="feedback-card">
-                <div class="feedback-card-header">
-                    <h3><i class="fas fa-edit"></i> Send Feedback</h3>
-                    <p>Your opinion matters to us. Please share your thoughts about our system.</p>
+        <div class="col-lg-10">
+            <!-- Enhanced Header Section -->
+            <div class="dashboard-header text-center mb-5">
+                <div class="header-icon mb-3">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h1 class="dashboard-title">Feedback Center</h1>
+                <p class="dashboard-subtitle">Share your experience and help us improve our heart health system</p>
+            </div>
+
+            <!-- Main Dashboard Card -->
+            <div class="dashboard-card">
+                <!-- Feedback Form Section -->
+                <div class="section-header">
+                    <h3 class="section-title">
+                        <i class="fas fa-edit"></i>
+                        Send Your Feedback
+                    </h3>
+                    <p class="section-description">Your feedback helps us enhance our heart disease prediction system</p>
                 </div>
                 
-                <form action="" method="post" enctype="multipart/form-data" class="feedback-form">
-                    {% csrf_token %}
-                    
-                    <!-- User Information -->
-                    <div class="form-section">
-                        <h4><i class="fas fa-user"></i> User Information</h4>
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control feedback-input" id="username" name="uname" value="{{request.user.username}}" required readonly>
+                <div class="feedback-form-container">
+                    <form action="" method="post" enctype="multipart/form-data" class="feedback-form">
+                        {% csrf_token %}
+                        
+                        <!-- User Information -->
+                        <div class="form-section">
+                            <h4 class="form-section-title">
+                                <i class="fas fa-user"></i>
+                                User Information
+                            </h4>
+                            <div class="form-group">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control modern-input" id="username" name="uname" value="{{request.user.username}}" required readonly>
+                            </div>
+                        </div>
+                        
+                        <!-- Feedback Message -->
+                        <div class="form-section">
+                            <h4 class="form-section-title">
+                                <i class="fas fa-comment"></i>
+                                Your Message
+                            </h4>
+                            <div class="form-group">
+                                <label for="message" class="form-label">Detailed Feedback</label>
+                                <textarea class="form-control modern-textarea" id="message" name="msg" placeholder="Please share your detailed feedback, suggestions, or report any issues you've encountered..." required rows="5"></textarea>
+                                <small class="form-text">Be as detailed as possible to help us improve our system.</small>
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Actions -->
+                        <div class="form-actions">
+                            <button type="submit" class="btn-modern btn-primary">
+                                <i class="fas fa-paper-plane"></i> Send Feedback
+                            </button>
+                            <a href="{% url 'user_home' %}" class="btn-modern btn-secondary">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+
+                <!-- System Features Section -->
+                <div class="section-header">
+                    <h3 class="section-title">
+                        <i class="fas fa-cogs"></i>
+                        System Features
+                    </h3>
+                    <p class="section-description">Advanced features of our heart health prediction system</p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h5>AI-Powered Analysis</h5>
+                            <p>Advanced machine learning algorithms analyze your health data</p>
                         </div>
                     </div>
                     
-                    <!-- Feedback Type -->
-                    <div class="form-section">
-                        <h4><i class="fas fa-tags"></i> Feedback Category</h4>
-                        <div class="feedback-options">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="feedback_type" id="general" value="general" checked>
-                                <label class="form-check-label" for="general">
-                                    <i class="fas fa-info-circle"></i> General Feedback
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="feedback_type" id="bug" value="bug">
-                                <label class="form-check-label" for="bug">
-                                    <i class="fas fa-bug"></i> Bug Report
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="feedback_type" id="feature" value="feature">
-                                <label class="form-check-label" for="feature">
-                                    <i class="fas fa-lightbulb"></i> Feature Request
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="feedback_type" id="improvement" value="improvement">
-                                <label class="form-check-label" for="improvement">
-                                    <i class="fas fa-chart-line"></i> Improvement Suggestion
-                                </label>
-                            </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h5>Real-time Results</h5>
+                            <p>Get instant predictions and health insights</p>
                         </div>
                     </div>
                     
-                    <!-- Rating System -->
-                    <div class="form-section">
-                        <h4><i class="fas fa-star"></i> Overall Rating</h4>
-                        <div class="rating-container">
-                            <div class="stars">
-                                <input type="radio" name="rating" value="5" id="star5">
-                                <label for="star5"><i class="fas fa-star"></i></label>
-                                <input type="radio" name="rating" value="4" id="star4">
-                                <label for="star4"><i class="fas fa-star"></i></label>
-                                <input type="radio" name="rating" value="3" id="star3">
-                                <label for="star3"><i class="fas fa-star"></i></label>
-                                <input type="radio" name="rating" value="2" id="star2">
-                                <label for="star2"><i class="fas fa-star"></i></label>
-                                <input type="radio" name="rating" value="1" id="star1">
-                                <label for="star1"><i class="fas fa-star"></i></label>
-                            </div>
-                            <p class="rating-text">Click to rate your experience</p>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h5>Mobile Friendly</h5>
+                            <p>Access your health data anywhere, anytime</p>
                         </div>
                     </div>
                     
-                    <!-- Specific Areas -->
-                    <div class="form-section">
-                        <h4><i class="fas fa-check-square"></i> Rate Specific Areas</h4>
-                        <div class="rating-areas">
-                            <div class="rating-area">
-                                <label>User Interface</label>
-                                <div class="mini-stars">
-                                    <input type="radio" name="ui_rating" value="5" id="ui5">
-                                    <label for="ui5"><i class="fas fa-star"></i></label>
-                                    <input type="radio" name="ui_rating" value="4" id="ui4">
-                                    <label for="ui4"><i class="fas fa-star"></i></label>
-                                    <input type="radio" name="ui_rating" value="3" id="ui3">
-                                    <label for="ui3"><i class="fas fa-star"></i></label>
-                                    <input type="radio" name="ui_rating" value="2" id="ui2">
-                                    <label for="ui2"><i class="fas fa-star"></i></label>
-                                    <input type="radio" name="ui_rating" value="1" id="ui1">
-                                    <label for="ui1"><i class="fas fa-star"></i></label>
-                                </div>
-                            </div>
-                            
-                            <div class="rating-area">
-                                <label>Prediction Accuracy</label>
-                                <div class="mini-stars">
-                                    <input type="radio" name="accuracy_rating" value="5" id="acc5">
-                                    <label for="acc5"><i class="fas fa-star"></i></label>
-                                    <input type="radio" name="accuracy_rating" value="4" id="acc4">
-                                    <label for="acc4"><i class="fas fa-star"></i></label>
-                                    <input type="radio" name="accuracy_rating" value="3" id="acc3">
-                                    <label for="acc3"><i class="fas fa-star"></i></label>
-                                    <input type="radio" name="accuracy_rating" value="2" id="acc2">
-                                    <label for="acc2"><i class="fas fa-star"></i></label>
-                                    <input type="radio" name="accuracy_rating" value="1" id="acc1">
-                                    <label for="acc1"><i class="fas fa-star"></i></label>
-                                </div>
-                            </div>
-                            
-                            <div class="rating-area">
-                                <label>Ease of Use</label>
-                                <div class="mini-stars">
-                                    <input type="radio" name="ease_rating" value="5" id="ease5">
-                                    <label for="ease5"><i class="fas fa-star"></i></label>
-                                    <input type="radio" name="ease_rating" value="4" id="ease4">
-                                    <label for="ease4"><i class="fas fa-star"></i></label>
-                                    <input type="radio" name="ease_rating" value="3" id="ease3">
-                                    <label for="ease3"><i class="fas fa-star"></i></label>
-                                    <input type="radio" name="ease_rating" value="2" id="ease2">
-                                    <label for="ease2"><i class="fas fa-star"></i></label>
-                                    <input type="radio" name="ease_rating" value="1" id="ease1">
-                                    <label for="ease1"><i class="fas fa-star"></i></label>
-                                </div>
-                            </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-file-medical"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h5>Detailed Reports</h5>
+                            <p>Comprehensive health reports and recommendations</p>
                         </div>
                     </div>
-                    
-                    <!-- Message -->
-                    <div class="form-section">
-                        <h4><i class="fas fa-comment"></i> Your Message</h4>
-                        <div class="form-group">
-                            <label for="message">Detailed Feedback</label>
-                            <textarea class="form-control feedback-textarea" id="message" name="msg" placeholder="Please share your detailed feedback, suggestions, or report any issues you've encountered..." required rows="5"></textarea>
-                            <small class="form-text">Be as detailed as possible to help us improve our system.</small>
-                        </div>
-                    </div>
-                    
-                    <!-- Contact Preference -->
-                    <div class="form-section">
-                        <h4><i class="fas fa-envelope"></i> Contact Preferences</h4>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="contact_me" name="contact_me">
-                            <label class="form-check-label" for="contact_me">
-                                I would like to be contacted for follow-up questions about my feedback
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <!-- Submit Button -->
-                    <div class="form-actions">
-                        <button type="submit" class="btn-modern btn-primary">
-                            <i class="fas fa-paper-plane"></i> Send Feedback
-                        </button>
-                        <a href="{% url 'patient_home' %}" class="btn-modern btn-secondary">
-                            <i class="fas fa-times"></i> Cancel
-                        </a>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<style>
+/* Enhanced Dashboard Styles */
+.dashboard-header {
+    margin-bottom: 3rem;
+}
+
+.header-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+}
+
+.header-icon i {
+    font-size: 2.5rem;
+    color: white;
+}
+
+.dashboard-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.dashboard-subtitle {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+}
+
+.section-header {
+    padding: 2rem 2rem 1rem 2rem;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-title i {
+    color: #667eea;
+    font-size: 1.3rem;
+}
+
+.section-description {
+    color: #7f8c8d;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Feedback Form Styles */
+.feedback-form-container {
+    padding: 2rem;
+}
+
+.form-section {
+    margin-bottom: 2rem;
+}
+
+.form-section-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-section-title i {
+    color: #667eea;
+    font-size: 1.1rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.modern-input, .modern-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.modern-input:focus, .modern-textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.modern-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-text {
+    color: #7f8c8d;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #f1f3f4;
+}
+
+
+/* Features Grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+}
+
+.feature-item {
+    text-align: center;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    margin: 0 auto 1rem auto;
+}
+
+.feature-content h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.feature-content p {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-title {
+        font-size: 2rem;
+    }
+    
+    .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        padding: 1rem;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+</style>
 {% endblock %}

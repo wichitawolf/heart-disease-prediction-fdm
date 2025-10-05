@@ -60,22 +60,7 @@
                                 <i class="fas fa-users"></i>
                             </div>
                             <div class="stat-content">
-                                <h3 class="stat-number">
-                                {% with unique_users=0 %}
-                                    {% for i in dis %}
-                                        {% if forloop.first %}
-                                            {% with user_count=0 %}
-                                                {% for j in dis %}
-                                                    {% if j.user.id not in seen_users %}
-                                                        {% with user_count=user_count|add:1 %}{% endwith %}
-                                                    {% endif %}
-                                                {% endfor %}
-                                                {{ user_count }}
-                                            {% endwith %}
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endwith %}
-                                </h3>
+                                <h3 class="stat-number">{{ unique_users }}</h3>
                                 <p class="stat-label">Unique Users</p>
                                 <div class="stat-trend">
                                     <i class="fas fa-user-friends text-success"></i>
@@ -179,7 +164,6 @@
                                         <i class="fas fa-calendar-alt text-primary me-2"></i>
                                         <div>
                                             <div class="fw-bold">{{ i.date|date:"M d, Y" }}</div>
-                                            <small class="text-muted">{{ i.date|date:"g:i A" }}</small>
                                         </div>
                                     </div>
                                 </td>

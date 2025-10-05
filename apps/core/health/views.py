@@ -26,7 +26,7 @@ def Admin_Home(request):
 
 @login_required(login_url="login")
 def User_Home(request):
-    return render(request,'user_home.html')
+    return render(request,'add_heartdetail.html')
 
 @login_required(login_url="login")
 def About(request):
@@ -35,8 +35,6 @@ def About(request):
 def Contact(request):
     return render(request,'contact.html')
 
-def Gallery(request):
-    return render(request,'gallery.html')
 
 def Login_User(request):
     error = ""
@@ -335,7 +333,8 @@ def delete_searched(request,pid):
 @login_required(login_url="login")
 def View_Feedback(request):
     dis = Feedback.objects.all()
-    d = {'dis':dis}
+    unique_users = Feedback.objects.values('user').distinct().count()
+    d = {'dis':dis, 'unique_users':unique_users}
     return render(request,'view_feedback.html',d)
 
 
@@ -366,6 +365,7 @@ def sent_feedback(request):
         Feedback.objects.create(user=username, messages=message)
         terror = "create"
     return render(request, 'sent_feedback.html',{'terror':terror})
+
 
 def guest_prediction(request):
     """Guest prediction view - allows users to access prediction form without authentication"""
@@ -476,6 +476,13 @@ def guest_prediction(request):
             pred_result = "<span style='color:green'>You are healthy</span>"
         else:
             pred_result = "<span style='color:red'>You are Unhealthy, Need to Checkup.</span>"
+        
+        # Save prediction to database for tracking
+        Search_Data.objects.create(
+            prediction_accuracy=str(accuracy),
+            result=str(pred[0]),
+            values_list=str(list_data)
+        )
         
         # Render results page for guests
         return render(request, 'prediction_result.html', {
