@@ -19,7 +19,7 @@ class HeartDiseasePredictor:
     Production-ready heart disease predictor using the enhanced MLOps model.
     """
     
-    def __init__(self, model_path: str = 'apps/ml/models/enhanced_mlops/'):
+    def __init__(self, model_path: str = 'apps/ml/models/'):
         """Initialize the predictor with trained models."""
         self.model_path = model_path
         self.model = None
@@ -28,32 +28,47 @@ class HeartDiseasePredictor:
         self.feature_names = []
         self.is_loaded = False
         
-        # Try to load the enhanced model
+        # Try to load the best available model
         self.load_models()
     
     def load_models(self):
         """Load the trained models and preprocessing objects."""
         try:
-            model_file = os.path.join(self.model_path, 'best_model.pkl')
-            scaler_file = os.path.join(self.model_path, 'scaler.pkl')
-            metadata_file = os.path.join(self.model_path, 'metadata.pkl')
+            # Try to load the realistic model first (18 features - closest to our 16)
+            model_file = os.path.join(self.model_path, 'realistic_best_model.pkl')
+            scaler_file = os.path.join(self.model_path, 'realistic_scaler.pkl')
             
-            if all(os.path.exists(f) for f in [model_file, scaler_file, metadata_file]):
+            if os.path.exists(model_file) and os.path.exists(scaler_file):
                 self.model = joblib.load(model_file)
                 self.scaler = joblib.load(scaler_file)
-                self.metadata = joblib.load(metadata_file)
-                self.feature_names = self.metadata.get('feature_names', [])
                 self.is_loaded = True
+                self.feature_names = [f'feature_{i}' for i in range(self.model.n_features_in_)]
                 
-                logger.info(f"✅ Enhanced model loaded: {self.metadata['best_model_name']}")
-                logger.info(f"Model accuracy: {self.metadata['performance_metrics'][self.metadata['best_model_name']]['accuracy']:.4f}")
+                logger.info(f"✅ Realistic model loaded: {type(self.model).__name__}")
+                logger.info(f"Model features: {self.model.n_features_in_}")
                 
             else:
-                logger.warning("⚠️ Enhanced model not found, will use fallback prediction")
-                self.is_loaded = False
+                # Fallback to enhanced MLOps model
+                model_file = os.path.join(self.model_path, 'enhanced_mlops', 'best_model.pkl')
+                scaler_file = os.path.join(self.model_path, 'enhanced_mlops', 'scaler.pkl')
+                metadata_file = os.path.join(self.model_path, 'enhanced_mlops', 'metadata.pkl')
+                
+                if all(os.path.exists(f) for f in [model_file, scaler_file, metadata_file]):
+                    self.model = joblib.load(model_file)
+                    self.scaler = joblib.load(scaler_file)
+                    self.metadata = joblib.load(metadata_file)
+                    self.feature_names = self.metadata.get('feature_names', [])
+                    self.is_loaded = True
+                    
+                    logger.info(f"✅ Enhanced model loaded: {self.metadata['best_model_name']}")
+                    logger.info(f"Model accuracy: {self.metadata['performance_metrics'][self.metadata['best_model_name']]['accuracy']:.4f}")
+                    
+                else:
+                    logger.warning("⚠️ No suitable model found, will use fallback prediction")
+                    self.is_loaded = False
                 
         except Exception as e:
-            logger.error(f"❌ Error loading enhanced model: {str(e)}")
+            logger.error(f"❌ Error loading model: {str(e)}")
             self.is_loaded = False
     
     def prepare_features(self, input_data: List[float]) -> np.ndarray:
@@ -68,38 +83,56 @@ class HeartDiseasePredictor:
             Prepared feature array
         """
         try:
-            # Convert to DataFrame for feature engineering
-            base_features = [
-                'age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg',
-                'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal'
-            ]
+            # Ensure we have exactly 16 features
+            if len(input_data) != 16:
+                logger.warning(f"Expected 16 features, got {len(input_data)}")
+                # Pad or truncate to 16 features
+                while len(input_data) < 16:
+                    input_data.append(0.0)
+                input_data = input_data[:16]
             
-            # Create DataFrame with base features
-            df = pd.DataFrame([input_data[:13]], columns=base_features)
-            
-            # Add engineered features (same as in training)
-            df = self._engineer_features(df)
-            
-            # Select only the features used in training
-            if self.feature_names:
-                # Ensure all required features are present
-                for feature in self.feature_names:
-                    if feature not in df.columns:
-                        df[feature] = 0  # Default value for missing features
+            # For realistic model (18 features), pad with 2 additional features
+            if self.model and hasattr(self.model, 'n_features_in_') and self.model.n_features_in_ == 18:
+                # Add 2 engineered features
+                age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal, bmi, smoking_status, alcohol_use = input_data
                 
-                df = df[self.feature_names]
+                # Feature 17: Age-Cholesterol interaction
+                age_chol_interaction = (age * chol) / 1000
+                
+                # Feature 18: Risk score
+                risk_score = 0
+                if age > 50: risk_score += 1
+                if sex == 1: risk_score += 1  # Male
+                if cp > 1: risk_score += 1
+                if trestbps > 140: risk_score += 1
+                if chol > 240: risk_score += 1
+                if fbs == 1: risk_score += 1
+                if exang == 1: risk_score += 1
+                if oldpeak > 1: risk_score += 1
+                if ca > 0: risk_score += 1
+                if thal > 0: risk_score += 1
+                if bmi > 30: risk_score += 1
+                if smoking_status > 0: risk_score += 1
+                if alcohol_use > 1: risk_score += 1
+                
+                # Pad to 18 features
+                padded_data = input_data + [age_chol_interaction, risk_score]
+                
+            else:
+                # For other models, use original data
+                padded_data = input_data
             
             # Scale features
             if self.scaler:
-                features_scaled = self.scaler.transform(df)
+                features_scaled = self.scaler.transform([padded_data])
                 return features_scaled
             else:
-                return df.values
+                return np.array([padded_data])
                 
         except Exception as e:
             logger.error(f"Error preparing features: {str(e)}")
             # Return original features as fallback
-            return np.array(input_data[:13]).reshape(1, -1)
+            return np.array(input_data[:16]).reshape(1, -1)
     
     def _engineer_features(self, df: pd.DataFrame) -> pd.DataFrame:
         """Engineer features (same as in training)."""
@@ -167,7 +200,13 @@ class HeartDiseasePredictor:
                 # Calculate confidence
                 confidence = max(probabilities) * 100
                 
-                logger.info(f"Enhanced ML prediction: {prediction}, confidence: {confidence:.2f}%")
+                logger.info(f"ML prediction: {prediction}, confidence: {confidence:.2f}%")
+                
+                # If confidence is too low or prediction seems wrong, use rule-based
+                if confidence < 60:
+                    logger.info("Low confidence, using rule-based prediction")
+                    return self._rule_based_prediction(input_data)
+                
                 return confidence, [int(prediction)]
             
             else:
