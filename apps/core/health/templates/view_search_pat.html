@@ -159,10 +159,6 @@
                                     <i class="fas fa-chart-bar me-2"></i>
                                     <span>Key Metrics</span>
                                 </th>
-                                <th class="text-center">
-                                    <i class="fas fa-cog me-2"></i>
-                                    <span>Actions</span>
-                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -212,22 +208,10 @@
                                         </span>
                                     </div>
                                 </td>
-                                <td class="text-center">
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-sm btn-outline-primary" 
-                                                data-bs-toggle="tooltip" title="View Details">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-sm btn-outline-success" 
-                                                data-bs-toggle="tooltip" title="Download Report">
-                                            <i class="fas fa-download"></i>
-                                        </button>
-                                    </div>
-                                </td>
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="6" class="text-center py-5">
+                                <td colspan="5" class="text-center py-5">
                                     <div class="empty-state">
                                         <i class="fas fa-inbox fa-3x mb-3"></i>
                                         <h5>No Prediction Records Found</h5>
@@ -243,81 +227,6 @@
                     </table>
                 </div>
 
-                <!-- Enhanced Quick Actions -->
-                <div class="mt-4">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="action-card">
-                                <div class="action-header">
-                                    <i class="fas fa-lightbulb text-warning"></i>
-                                    <h6>Quick Actions</h6>
-                                </div>
-                                <div class="action-content">
-                                    <p class="text-muted mb-3">Manage your predictions and export data</p>
-                                    <div class="d-flex gap-2">
-                                        <a href="{% url 'guest_prediction' %}" class="btn btn-primary btn-sm">
-                                            <i class="fas fa-plus me-1"></i> New Prediction
-                                        </a>
-                                        <button class="btn btn-outline-success btn-sm" onclick="exportData()">
-                                            <i class="fas fa-download me-1"></i> Export Data
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="action-card">
-                                <div class="action-header">
-                                    <i class="fas fa-chart-pie text-primary"></i>
-                                    <h6>Health Insights</h6>
-                                </div>
-                                <div class="action-content">
-                                    <p class="text-muted mb-3">Track your heart health journey over time</p>
-                                    <div class="d-flex gap-2">
-                                        <a href="{% url 'add_heartdetail' %}" class="btn btn-outline-primary btn-sm">
-                                            <i class="fas fa-tachometer-alt me-1"></i> Dashboard
-                                        </a>
-                                        <button class="btn btn-outline-info btn-sm" onclick="showInsights()">
-                                            <i class="fas fa-chart-line me-1"></i> View Trends
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Enhanced Data Insights -->
-                <div class="mt-4">
-                    <div class="info-card">
-                        <div class="info-header">
-                            <i class="fas fa-shield-alt"></i>
-                            <h6>Data Security & Privacy</h6>
-                        </div>
-                        <div class="info-content">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="d-flex align-items-start">
-                                        <i class="fas fa-lock text-success me-2 mt-1"></i>
-                                        <div>
-                                            <strong>Encrypted Storage</strong>
-                                            <p class="text-muted mb-0">All your prediction data is encrypted and stored securely.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="d-flex align-items-start">
-                                        <i class="fas fa-user-shield text-info me-2 mt-1"></i>
-                                        <div>
-                                            <strong>Privacy Protected</strong>
-                                            <p class="text-muted mb-0">Your personal health information remains confidential.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -516,42 +425,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Start real-time updates
     setInterval(fetchLatestData, 5000); // Check every 5 seconds
     
-    // Export data function
-    window.exportData = function() {
-        // Create CSV content
-        const table = document.getElementById('example');
-        const rows = table.querySelectorAll('tr');
-        let csvContent = "ID,Date,Accuracy,Result,Key Metrics\n";
-        
-        for (let i = 1; i < rows.length; i++) {
-            const cells = rows[i].querySelectorAll('td');
-            if (cells.length >= 5) {
-                const id = cells[0].textContent.trim();
-                const date = cells[1].textContent.trim();
-                const accuracy = cells[2].textContent.trim();
-                const result = cells[3].textContent.trim();
-                const metrics = cells[4].textContent.trim();
-                
-                csvContent += `"${id}","${date}","${accuracy}","${result}","${metrics}"\n`;
-            }
-        }
-        
-        // Download CSV
-        const blob = new Blob([csvContent], { type: 'text/csv' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'heart-prediction-history.csv';
-        a.click();
-        window.URL.revokeObjectURL(url);
-        
-        showNotification('Data exported successfully!');
-    };
-    
-    // Show insights function
-    window.showInsights = function() {
-        showNotification('Health insights feature coming soon!');
-    };
 });
 
 // Enhanced CSS matching the design system
@@ -625,79 +498,6 @@ style.textContent = `
         transition: all 0.3s ease;
     }
     
-    /* Action Cards */
-    .action-card {
-        background: white;
-        border-radius: 15px;
-        padding: 1.5rem;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        border: 1px solid #e9ecef;
-        transition: all 0.3s ease;
-        height: 100%;
-    }
-    
-    .action-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
-    }
-    
-    .action-header {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        margin-bottom: 1rem;
-        padding-bottom: 0.75rem;
-        border-bottom: 2px solid #f8f9fa;
-    }
-    
-    .action-header i {
-        font-size: 1.2rem;
-    }
-    
-    .action-header h6 {
-        margin: 0;
-        font-weight: 600;
-        color: #2c3e50;
-    }
-    
-    .action-content p {
-        color: #6c757d;
-        margin-bottom: 1rem;
-    }
-    
-    /* Info Cards */
-    .info-card {
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        border: 1px solid #e9ecef;
-        overflow: hidden;
-    }
-    
-    .info-header {
-        background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-        padding: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        border-bottom: 1px solid #ffeaa7;
-    }
-    
-    .info-header i {
-        color: #856404;
-        font-size: 1.2rem;
-    }
-    
-    .info-header h6 {
-        color: #856404;
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin: 0;
-    }
-    
-    .info-content {
-        padding: 1.5rem;
-    }
     
     .card-modern:hover {
         box-shadow: var(--shadow-dark);
