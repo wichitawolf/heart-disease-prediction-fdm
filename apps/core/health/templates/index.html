@@ -247,11 +247,6 @@
 </head>
 
 <body>
-	<!-- Theme Toggle Button -->
-	<button class="theme-toggle" id="themeToggle" title="Toggle Theme">
-		<i class="fas fa-moon icon" id="themeIcon"></i>
-		<span id="themeText">Dark Mode</span>
-	</button>
 
 	<!-- Bootstrap Navbar -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
@@ -383,93 +378,6 @@
 	<!-- Scroll to Top Button -->
 	
 
-	<!-- Theme Toggle JavaScript -->
-	<script>
-		// Theme Toggle Functionality
-		document.addEventListener('DOMContentLoaded', function() {
-			const themeToggle = document.getElementById('themeToggle');
-			const themeIcon = document.getElementById('themeIcon');
-			const themeText = document.getElementById('themeText');
-			
-			// Check for saved theme preference or default to light
-			const currentTheme = localStorage.getItem('theme') || 'light';
-			document.documentElement.setAttribute('data-theme', currentTheme);
-			updateThemeUI(currentTheme);
-			
-			// Theme toggle click handler
-			themeToggle.addEventListener('click', function() {
-				const currentTheme = document.documentElement.getAttribute('data-theme');
-				const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-				
-				// Apply new theme
-				document.documentElement.setAttribute('data-theme', newTheme);
-				localStorage.setItem('theme', newTheme);
-				
-				// Update UI
-				updateThemeUI(newTheme);
-				
-				// Add smooth transition effect
-				document.body.style.transition = 'all 0.3s ease';
-				
-				// Show theme change notification
-				showThemeNotification(newTheme);
-			});
-			
-			function updateThemeUI(theme) {
-				if (theme === 'dark') {
-					themeIcon.className = 'fas fa-sun icon';
-					themeText.textContent = 'Light Mode';
-					themeToggle.title = 'Switch to Light Mode';
-				} else {
-					themeIcon.className = 'fas fa-moon icon';
-					themeText.textContent = 'Dark Mode';
-					themeToggle.title = 'Switch to Dark Mode';
-				}
-			}
-			
-			function showThemeNotification(theme) {
-				// Create notification element
-				const notification = document.createElement('div');
-				notification.className = 'theme-notification';
-				notification.innerHTML = `
-					<i class="fas fa-${theme === 'dark' ? 'moon' : 'sun'} me-2"></i>
-					Switched to ${theme === 'dark' ? 'Dark' : 'Light'} Mode
-				`;
-				
-				// Add styles
-				notification.style.cssText = `
-					position: fixed;
-					top: 80px;
-					right: 20px;
-					background: var(--gradient-primary);
-					color: var(--text-light);
-					padding: 12px 20px;
-					border-radius: 25px;
-					box-shadow: var(--shadow-medium);
-					z-index: 9999;
-					transform: translateX(100%);
-					transition: transform 0.3s ease;
-					font-weight: 600;
-					backdrop-filter: blur(10px);
-				`;
-				
-				document.body.appendChild(notification);
-				
-				// Animate in
-				setTimeout(() => {
-					notification.style.transform = 'translateX(0)';
-				}, 100);
-				
-				// Remove after 3 seconds
-				setTimeout(() => {
-					notification.style.transform = 'translateX(100%)';
-					setTimeout(() => {
-						document.body.removeChild(notification);
-					}, 300);
-				}, 3000);
-			}
-		});
-	</script>
 	
 	<style>
 		/* Navbar styling for single line layout */
