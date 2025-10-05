@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from core.health.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', add_heartdetail, name="home"),
+    path('', Home, name="home"),
     path('home/', Home, name="home_alt"),
     path('user_home/', User_Home,name="user_home"),
     path('admin_home/', Admin_Home,name="admin_home"),
