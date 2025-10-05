@@ -8,7 +8,13 @@ import datetime
 from .models import *
 
 def Home(request):
-    return render(request,'carousel.html')
+    # Check if user is authenticated and is admin
+    if request.user.is_authenticated and request.user.is_staff:
+        return redirect('admin_home')
+    elif request.user.is_authenticated:
+        return redirect('user_home')
+    else:
+        return render(request,'carousel.html')
 
 def Admin_Home(request):
     dis = Search_Data.objects.all()
