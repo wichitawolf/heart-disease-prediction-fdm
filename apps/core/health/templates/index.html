@@ -260,10 +260,17 @@
 						<small class="text-muted">AI-Powered Medical Diagnosis</small>
 					</div>
 				</a>
-				<a class="nav-link home-btn {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}" style="margin-left: 1rem;">
+				{% if request.user.is_authenticated and request.user.is_staff %}
+				<a class="nav-link home-btn {% if request.resolver_match.url_name == 'admin_home' %}active{% endif %}" href="{% url 'admin_home' %}" style="margin-left: 1rem;">
 					<i class="fas fa-home me-2"></i>
 					<span>Home</span>
 				</a>
+				{% else %}
+				<a class="nav-link home-btn {% if request.resolver_match.url_name == 'user_home' %}active{% endif %}" href="{% url 'user_home' %}" style="margin-left: 1rem;">
+					<i class="fas fa-home me-2"></i>
+					<span>Home</span>
+				</a>
+				{% endif %}
 			</div>
 			
 			<!-- Navigation Links -->
