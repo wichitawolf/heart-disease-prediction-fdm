@@ -4,67 +4,153 @@
 {% block title %}Heart Health Dashboard - Heart Disease Prediction{% endblock %}
 
 {% block body %}
-<div class="container mt-5">
+<div class="container mt-4">
     <div class="row justify-content-center">
-        <div class="col-12">
-            <div class="card-modern fade-in">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-heartbeat text-primary mb-3"></i>
-                        Heart Health Dashboard
-                    </div>
-                    <div class="card-subtitle">Manage your heart health information and predictions</div>
+        <div class="col-lg-10">
+            <!-- Enhanced Header Section -->
+            <div class="dashboard-header text-center mb-5">
+                <div class="header-icon mb-3">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <h1 class="dashboard-title">Heart Health Dashboard</h1>
+                <p class="dashboard-subtitle">Comprehensive heart health management and monitoring system</p>
             </div>
 
-                <div class="p-4 bg-light rounded mb-4 text-center">
-                    <div class="d-flex flex-wrap gap-2 justify-content-center">
-                        <a href="{% url 'guest_prediction' %}" class="btn-modern btn-primary">
-                            <i class="fas fa-stethoscope"></i> New Prediction
-                        </a>
-                        
-                        <a href="{% url 'view_search_pat' %}" class="btn-modern btn-info">
-                            <i class="fas fa-history"></i> Prediction History
-                        </a>
-                        
-                        <a href="{% url 'edit_profile' %}" class="btn-modern btn-success">
-                            <i class="fas fa-user-edit"></i> Edit Profile
-                        </a>
+            <!-- Main Dashboard Card -->
+            <div class="dashboard-card">
+                <!-- Quick Actions Section -->
+                <div class="section-header">
+                    <h3 class="section-title">
+                        <i class="fas fa-bolt"></i>
+                        Quick Actions
+                    </h3>
+                    <p class="section-description">Access essential heart health tools and features</p>
+                </div>
+                
+                <div class="actions-grid">
+                    <a href="{% url 'guest_prediction' %}" class="action-card primary-action">
+                        <div class="action-icon">
+                            <i class="fas fa-stethoscope"></i>
                         </div>
+                        <div class="action-content">
+                            <h4>New Assessment</h4>
+                            <p>Get a comprehensive heart health evaluation</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+                    
+                    <a href="{% url 'view_search_pat' %}" class="action-card secondary-action">
+                        <div class="action-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="action-content">
+                            <h4>Prediction History</h4>
+                            <p>Review your previous health assessments</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+                    
+                    <a href="{% url 'edit_profile' %}" class="action-card tertiary-action">
+                        <div class="action-icon">
+                            <i class="fas fa-user-edit"></i>
+                        </div>
+                        <div class="action-content">
+                            <h4>Profile Settings</h4>
+                            <p>Manage your account and preferences</p>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
                 </div>
 
-                <div class="p-4">
-                    <h6 class="mb-3"><i class="fas fa-info-circle text-primary me-2"></i>Heart Health Information</h6>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="info-card mb-3">
-                                <h6><i class="fas fa-heart text-danger me-2"></i>Heart Health Status</h6>
-                                <p class="text-muted">Monitor your heart health with regular assessments and predictions.</p>
-                            </div>
+                <!-- Health Information Section -->
+                <div class="section-header">
+                    <h3 class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        Health Information
+                    </h3>
+                    <p class="section-description">Key insights about heart health monitoring</p>
+                </div>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-heart"></i>
                         </div>
-                        <div class="col-md-6">
-                            <div class="info-card mb-3">
-                                <h6><i class="fas fa-chart-line text-success me-2"></i>Health Trends</h6>
-                                <p class="text-muted">Track your health progress over time with detailed reports.</p>
-                                </div>
-                            </div>
+                        <div class="info-content">
+                            <h5>Health Status</h5>
+                            <p>Monitor your heart health with regular assessments and AI-powered predictions to stay informed about your cardiovascular wellness.</p>
                         </div>
                     </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="info-content">
+                            <h5>Health Trends</h5>
+                            <p>Track your health progress over time with detailed reports and trend analysis to understand your cardiovascular patterns.</p>
+                        </div>
+                    </div>
+                </div>
 
-                <div class="p-4">
-                    <h6 class="mb-3"><i class="fas fa-lightbulb text-warning me-2"></i>Quick Tips for Heart Health</h6>
-                    <ul class="text-secondary">
-                        <li>Get regular exercise - aim for at least 30 minutes daily</li>
-                        <li>Eat a balanced diet rich in fruits, vegetables, and whole grains</li>
-                        <li>Maintain a healthy weight and blood pressure</li>
-                        <li>Avoid smoking and limit alcohol consumption</li>
-                        <li>Get regular check-ups with your healthcare provider</li>
-                    </ul>
-            </div>
+                <!-- Health Tips Section -->
+                <div class="section-header">
+                    <h3 class="section-title">
+                        <i class="fas fa-lightbulb"></i>
+                        Heart Health Guidelines
+                    </h3>
+                    <p class="section-description">Essential practices for maintaining optimal heart health</p>
+                </div>
+                
+                <div class="tips-container">
+                    <div class="tip-item">
+                        <div class="tip-number">01</div>
+                        <div class="tip-content">
+                            <h6>Regular Exercise</h6>
+                            <p>Aim for at least 30 minutes of moderate-intensity exercise daily to strengthen your heart muscle.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-item">
+                        <div class="tip-number">02</div>
+                        <div class="tip-content">
+                            <h6>Balanced Nutrition</h6>
+                            <p>Consume a diet rich in fruits, vegetables, whole grains, and lean proteins for optimal heart health.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-item">
+                        <div class="tip-number">03</div>
+                        <div class="tip-content">
+                            <h6>Weight Management</h6>
+                            <p>Maintain a healthy weight and blood pressure to reduce cardiovascular risk factors.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-item">
+                        <div class="tip-number">04</div>
+                        <div class="tip-content">
+                            <h6>Lifestyle Choices</h6>
+                            <p>Avoid smoking, limit alcohol consumption, and manage stress for better heart health outcomes.</p>
+                        </div>
+                    </div>
+                </div>
 
-                <div class="p-4">
-                    <h6 class="mb-3"><i class="fas fa-phone text-info me-2"></i>Emergency Information</h6>
-                    <div class="alert alert-warning">
-                        <strong>Important:</strong> If you experience chest pain, shortness of breath, or other concerning symptoms, seek immediate medical attention. This system is for informational purposes only and should not replace professional medical advice.
+                <!-- Important Notice Section -->
+                <div class="notice-section">
+                    <div class="notice-header">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h4>Important Medical Notice</h4>
+                    </div>
+                    <div class="notice-content">
+                        <p><strong>Emergency Situations:</strong> If you experience chest pain, shortness of breath, dizziness, or other concerning symptoms, seek immediate medical attention.</p>
+                        <p><strong>Disclaimer:</strong> This system provides informational assessments only and should not replace professional medical advice, diagnosis, or treatment.</p>
                     </div>
                 </div>
             </div>
@@ -73,26 +159,347 @@
 </div>
 
 <style>
-.info-card {
-    background: #f8f9fa;
-    padding: 1rem;
-    border-radius: 8px;
-    border-left: 4px solid var(--primary-color);
+/* Enhanced Dashboard Styles */
+.dashboard-header {
+    margin-bottom: 3rem;
 }
 
-.info-card h6 {
-    color: var(--primary-color);
+.header-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+}
+
+.header-icon i {
+    font-size: 2.5rem;
+    color: white;
+}
+
+.dashboard-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.dashboard-subtitle {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+}
+
+.section-header {
+    padding: 2rem 2rem 1rem 2rem;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.section-title {
+    font-size: 1.5rem;
     font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-title i {
+    color: #667eea;
+    font-size: 1.3rem;
+}
+
+.section-description {
+    color: #7f8c8d;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Actions Grid */
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+}
+
+.action-card {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    border-radius: 16px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    background: #f8f9fa;
+}
+
+.action-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+}
+
+.primary-action {
+    border-color: #667eea;
+    background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+}
+
+.secondary-action {
+    border-color: #28a745;
+    background: linear-gradient(135deg, #f8fff9 0%, #e8f5e8 100%);
+}
+
+.tertiary-action {
+    border-color: #6c757d;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.action-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    font-size: 1.5rem;
+}
+
+.primary-action .action-icon {
+    background: #667eea;
+    color: white;
+}
+
+.secondary-action .action-icon {
+    background: #28a745;
+    color: white;
+}
+
+.tertiary-action .action-icon {
+    background: #6c757d;
+    color: white;
+}
+
+.action-content {
+    flex: 1;
+}
+
+.action-content h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.25rem;
+}
+
+.action-content p {
+    color: #7f8c8d;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.action-arrow {
+    color: #bdc3c7;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.action-card:hover .action-arrow {
+    color: #667eea;
+    transform: translateX(4px);
+}
+
+/* Info Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border-left: 4px solid #667eea;
+}
+
+.info-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background: #667eea;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    font-size: 1.2rem;
+}
+
+.info-content h5 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
     margin-bottom: 0.5rem;
 }
 
-.fade-in {
-    animation: fadeIn 0.5s ease-in;
+.info-content p {
+    color: #7f8c8d;
+    margin: 0;
+    line-height: 1.5;
+    font-size: 0.9rem;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Tips Container */
+.tips-container {
+    padding: 2rem;
+}
+
+.tip-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.tip-item:hover {
+    background: #e9ecef;
+    transform: translateX(4px);
+}
+
+.tip-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #667eea;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.tip-content h6 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.25rem;
+}
+
+.tip-content p {
+    color: #7f8c8d;
+    margin: 0;
+    line-height: 1.5;
+    font-size: 0.9rem;
+}
+
+/* Notice Section */
+.notice-section {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 12px;
+    margin: 2rem;
+    padding: 1.5rem;
+}
+
+.notice-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.notice-header i {
+    color: #856404;
+    font-size: 1.2rem;
+}
+
+.notice-header h4 {
+    color: #856404;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.notice-content p {
+    color: #856404;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+    font-size: 0.9rem;
+}
+
+.notice-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-title {
+        font-size: 2rem;
+    }
+    
+    .actions-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    
+    .section-header {
+        padding: 1.5rem 1rem 1rem 1rem;
+    }
+    
+    .tips-container {
+        padding: 1rem;
+    }
+    
+    .notice-section {
+        margin: 1rem;
+    }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dashboard-card {
+    animation: fadeInUp 0.6s ease-out;
 }
 </style>
 {% endblock %}
