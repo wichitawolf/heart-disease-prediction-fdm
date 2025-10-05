@@ -18,6 +18,7 @@
                     <th>Email</th>
                     <th>Contact</th>
                     <th>Messages</th>
+                    <th>Submitted</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -25,10 +26,11 @@
                 {% for i in dis %}
                 <tr>
                     <td>{{forloop.counter}}</td>
-                    <td class="feedback-name">{{i.user.first_name}} {{i.user.user.last_name}}</td>
+                    <td class="feedback-name">{{i.user.first_name}} {{i.user.last_name}}</td>
                     <td>{{i.user.email}}</td>
-                    <td>{{i.user.patient_set.all.0.contact}}</td>
+                    <td>{{i.user.patient_set.all.0.contact|default:"-"}}</td>
                     <td class="feedback-message">{{i.messages}}</td>
+                    <td>{{ i.created|date:"Y-m-d H:i" }}</td>
                     <td style="width:150px">
                         <a href="{% url 'delete_feedback' i.id %}">
                             <button class="btn-modern btn-danger btn-sm" onclick="return confirm('Are you sure?')">

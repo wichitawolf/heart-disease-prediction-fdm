@@ -332,11 +332,6 @@ def View_Feedback(request):
     d = {'dis':dis}
     return render(request,'view_feedback.html',d)
 
-@login_required(login_url="login")
-def View_My_Detail(request):
-    user = User.objects.get(id=request.user.id)
-    d = {'pro':user}
-    return render(request,'profile_doctor.html',d)
 
 
 @login_required(login_url="login")

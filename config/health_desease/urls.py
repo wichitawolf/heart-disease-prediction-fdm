@@ -45,7 +45,6 @@ urlpatterns = [
 
     path('view_feedback/', View_Feedback,name="view_feedback"),
     path('edit_profile/', Edit_My_deatail,name="edit_profile"),
-    path('profile_doctor/', View_My_Detail,name="profile_doctor"),
     path('sent_feedback/', sent_feedback,name="sent_feedback"),
 
     path('delete_searched/<int:pid>/', delete_searched, name="delete_searched"),
